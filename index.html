@@ -1,0 +1,1603 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Hồ sơ vụ án: Ai làm Huy cười hoài?</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!--
+    Caveat      – chữ viết tay cho tiêu đề (hỗ trợ dấu tiếng Việt tốt)
+    Be Vietnam Pro – font nội dung thiết kế riêng cho tiếng Việt,
+                     dấu sắc/huyền/hỏi/ngã/nặng hiển thị chuẩn
+  -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       BIẾN MÀU & THIẾT LẬP CHUNG
+       ============================================================ */
+    :root {
+      --cream:       #fdf6ed;
+      --cream-dark:  #f4e8d4;
+      --brown:       #5c3d2e;
+      --brown-light: #8b6248;
+      --pink:        #e8829a;
+      --pink-light:  #f5c2ce;
+      --pink-pale:   #fde8ef;
+      --shadow:      rgba(92, 61, 46, 0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background-color: var(--cream);
+      color: var(--brown);
+      min-height: 100dvh;
+      overflow-x: hidden;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    /* ============================================================
+       TIỆN ÍCH
+       ============================================================ */
+    .hidden   { display: none !important; }
+    .fade-in  { animation: fadeIn  0.5s ease forwards; }
+    .slide-up { animation: slideUp 0.5s cubic-bezier(.22,.61,.36,1) forwards; }
+
+    @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+    @keyframes slideUp { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes popIn   { from{transform:scale(0)} to{transform:scale(1)} }
+    @keyframes fadeOut { to{opacity:0} }
+    @keyframes sheetUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+    @keyframes float   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    @keyframes shake {
+      0%,100%{transform:translateX(0)}
+      20%{transform:translateX(-7px)}
+      40%{transform:translateX(7px)}
+      60%{transform:translateX(-4px)}
+      80%{transform:translateX(4px)}
+    }
+    @keyframes flyHeartLeft  {
+      0%  {transform:translateX(-40px) scale(.4);opacity:0}
+      60% {opacity:1}
+      100%{transform:translateX(90px) scale(1);opacity:1}
+    }
+    @keyframes flyHeartRight {
+      0%  {transform:translateX(40px) scale(.4);opacity:0}
+      60% {opacity:1}
+      100%{transform:translateX(-90px) scale(1);opacity:1}
+    }
+    @keyframes heartPulse {
+      0%  {transform:scale(.5);opacity:0}
+      70% {transform:scale(1.2)}
+      100%{transform:scale(1);opacity:1}
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+
+    /* ============================================================
+       BỐ CỤC
+       ============================================================ */
+    #app {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100dvh;
+      position: relative;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px 32px;
+      min-height: 100dvh;
+    }
+
+    /* NÚT CHUNG */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 52px;
+    }
+    .btn:active { transform: scale(.96); }
+    .btn-primary {
+      background: var(--pink);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(232,130,154,.5);
+    }
+    .btn-primary:hover { background: #d9718a; box-shadow: 0 6px 20px rgba(232,130,154,.6); }
+    .btn-secondary {
+      background: var(--cream);
+      color: var(--brown);
+      border: 2px solid var(--pink-light);
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+    .btn-secondary:hover { background: var(--pink-pale); }
+
+    /* ============================================================
+       MÀN 1: PHONG BÌ
+       ============================================================ */
+    #screen-envelope {
+      background: linear-gradient(160deg, var(--pink-pale) 0%, var(--cream) 60%);
+    }
+    .case-title {
+      font-family: 'Dancing Script', cursive;
+      font-weight: 700;
+      font-size: clamp(30px, 8vw, 52px);
+      text-align: center;
+      color: var(--brown);
+      margin-bottom: 10px;
+      line-height: 1.15;
+      /* giữ nghiêng nhẹ như scrapbook */
+      transform: rotate(-1deg);
+    }
+    .case-subtitle {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 500;
+      font-size: clamp(12px, 3.5vw, 14px);
+      color: var(--brown-light);
+      text-align: center;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      margin-bottom: 36px;
+    }
+
+        /*
+      PHONG BI - thutu tu sau ra truoc:
+        1. env-back    (nen hong, z:1)
+        2. paper-peek  (to thu, z:2)
+        3. env-front   (mat truoc SVG 3 tam giac, z:3)
+        4. stamp       (tem, z:4)
+        5. envelope-flap (nap tren, z:5 khi dong, z:1 sau khi lat)
+    */
+    .envelope-wrap {
+      position: relative;
+      width: min(280px,78vw);
+      aspect-ratio: 1.4;
+      cursor: pointer;
+      perspective: 700px;
+      margin-bottom: 28px;
+      overflow: visible;
+    }
+    .env-back {
+      position: absolute; inset: 0;
+      background: linear-gradient(145deg,#f8b8c8,#f0a0b4);
+      border-radius: 6px;
+      box-shadow: 0 8px 28px var(--shadow), 0 2px 8px rgba(0,0,0,.09);
+      z-index: 1;
+    }
+    /* To thu: an sau .env-front khi dong, tron ra khi mo */
+    .paper-peek {
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 73%; height: 78%;
+      background: #fffcf6;
+      border-radius: 3px 3px 0 0;
+      z-index: 2;
+      box-shadow: 0 -2px 8px rgba(0,0,0,.10);
+      background-image: repeating-linear-gradient(
+        to bottom, transparent, transparent 15px,
+        rgba(232,130,154,.12) 15px, rgba(232,130,154,.12) 16px
+      );
+      overflow: hidden;
+      transition: none;
+    }
+    /* JS them class letter-out sau khi nap lat xong */
+    .envelope-wrap.letter-out .paper-peek {
+      transform: translateX(-50%) translateY(-55%);
+      transition: transform .78s cubic-bezier(.22,.61,.36,1);
+    }
+    .paper-inner {
+      padding: 8px 10px 0;
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .paper-top-mark {
+      display: flex; align-items: center; gap: 4px; margin-bottom: 2px;
+    }
+    .paper-top-mark .ptm-line {
+      flex: 1; height: 1px; background: var(--pink-light); opacity: .7;
+    }
+    .paper-top-mark .ptm-heart {
+      font-size: 10px; color: var(--pink); opacity: .8; line-height: 1;
+    }
+    .paper-script {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(.6rem, 2.2vw, .72rem);
+      color: var(--pink); opacity: .72;
+      text-align: center; letter-spacing: .04em; line-height: 1.3;
+    }
+    .paper-rule {
+      height: 1px; background: rgba(232,130,154,.18);
+      border-radius: 1px; width: 100%;
+    }
+    .paper-rule.pl-short  { width: 60%; }
+    .paper-rule.pl-medium { width: 78%; }
+    /* Mat truoc phong bi - 3 tam giac che phan duoi to thu */
+    .env-front {
+      position: absolute; inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .env-front svg { width: 100%; height: 100%; display: block; }
+    .stamp {
+      position: absolute; top: 10px; right: 12px;
+      width: 36px; height: 44px;
+      background: var(--cream);
+      border: 2px solid var(--pink);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; z-index: 4; border-radius: 2px;
+      box-shadow: 0 0 0 1px var(--pink-light), 2px 2px 6px var(--shadow);
+    }
+    .envelope-flap {
+      position: absolute; top: 0; left: 0; right: 0; height: 52%;
+      transform-origin: top center;
+      transition: transform .58s cubic-bezier(.4,0,.2,1);
+      z-index: 5;
+    }
+    .envelope-flap svg { width: 100%; height: 100%; display: block; }
+    /* Buoc 1: lat nap */
+    .envelope-wrap.open        .envelope-flap { transform: rotateX(180deg); }
+    /* Buoc 2: JS them class -> nap ra sau to thu */
+    .envelope-wrap.flap-behind .envelope-flap { z-index: 1; }
+    .envelope-label {
+      font-family:'Caveat',cursive;
+      font-size:clamp(.95rem,3.5vw,1.1rem);
+      text-align:center;max-width:300px;
+      line-height:1.6;margin-bottom:28px;
+    }
+    .envelope-label::before {
+      content:'✦';display:block;color:var(--pink);
+      margin-bottom:6px;font-size:1rem;
+    }
+    .small-note {
+      font-size:.75rem;color:var(--brown-light);
+      text-align:center;opacity:.65;margin-top:8px;
+    }
+
+    /* ============================================================
+       MÀN 2 (MỚI): "EM CÓ YÊU ANH KHÔNG?"
+       ============================================================ */
+    #screen-question {
+      background: linear-gradient(160deg,var(--pink-pale) 0%,var(--cream) 55%,var(--pink-pale) 100%);
+      gap: 20px;
+    }
+
+    .question-heading {
+      font-family:'Caveat',cursive;
+      font-size:clamp(1.75rem,6.5vw,2.3rem);
+      text-align:center;line-height:1.35;
+      transform:rotate(-1deg);
+    }
+
+    /* Nút CÓ */
+    #btnYes {
+      width: min(230px,65vw);
+      font-size: 1.15rem;
+      box-shadow: 0 6px 24px rgba(232,130,154,.55);
+    }
+
+    /* Vùng né cho nút KHÔNG */
+    .dodge-arena {
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+      height: 200px;
+      flex-shrink: 0;
+    }
+
+    /* Nút KHÔNG – absolutely positioned trong arena */
+    #btnNo {
+      position: absolute;
+      /* JS sẽ set left/top bằng px ngay khi screen visible */
+      left: 50%; top: 50%;
+      transform: translate(-50%,-50%);
+
+      background: var(--cream);
+      color: var(--brown-light);
+      border: 2px solid var(--cream-dark);
+      border-radius: 50px;
+      padding: 12px 26px;
+      font-family: 'Be Vietnam Pro',sans-serif;
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      min-height: 48px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: 0 2px 8px var(--shadow);
+      /* Chuyển động mượt khi né */
+    }
+    #btnNo.shaking { animation: shake .4s ease; }
+
+    /* Skip link */
+    #btnSkip {
+      font-size:.82rem;color:var(--brown-light);
+      background:none;border:none;cursor:pointer;
+      text-decoration:underline;
+      font-family:'Be Vietnam Pro',sans-serif;
+      padding:10px 16px;min-height:44px;
+      display:flex;align-items:center;
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    /* ============================================================
+       ẾCH CSS  (position: fixed, ngoài #app)
+       ============================================================ */
+    #frogContainer {
+      position: fixed;
+      bottom: -130px;        /* ẩn ban đầu dưới màn hình */
+      left: 12px;
+      z-index: 200;
+      transition: bottom .6s cubic-bezier(.22,.61,.36,1);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      pointer-events: none;
+    }
+    #frogContainer.visible { bottom: 0; }
+
+    /* Khung chứa ếch */
+    .frog {
+      width: 80px;
+      height: 88px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    /* Mắt ếch – hai bướu trên đầu */
+    .frog-eye {
+      width: 28px; height: 28px;
+      background: #e8f5e9;
+      border: 3px solid #388e3c;
+      border-radius: 50%;
+      position: absolute; top: 0;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,.2);
+      z-index: 2;
+    }
+    .frog-eye.left  { left: 4px; }
+    .frog-eye.right { right: 4px; }
+
+    .frog-pupil {
+      width: 12px; height: 12px;
+      background: #1a2744;
+      border-radius: 50%;
+      position: relative;
+    }
+    .frog-pupil::after {
+      content:'';
+      position: absolute;
+      width: 4px; height: 4px;
+      background: rgba(255,255,255,.9);
+      border-radius: 50%;
+      top: 1px; left: 2px;
+    }
+
+    /* Đầu ếch */
+    .frog-head {
+      width: 74px; height: 64px;
+      background: #66bb6a;
+      border-radius: 52% 52% 42% 42%;
+      position: absolute;
+      bottom: 0; left: 3px;
+      box-shadow:
+        inset 0 -8px 16px rgba(0,0,0,.12),
+        0 4px 14px rgba(76,175,80,.35);
+      overflow: hidden;
+    }
+
+    /* Bụng sáng hơn */
+    .frog-belly {
+      position: absolute;
+      bottom: 2px; left: 50%;
+      transform: translateX(-50%);
+      width: 48px; height: 34px;
+      background: rgba(255,255,255,.22);
+      border-radius: 50%;
+    }
+
+    /* Má ếch */
+    .frog-cheek {
+      position: absolute;
+      bottom: 17px;
+      width: 18px; height: 14px;
+      background: rgba(255,100,120,.28);
+      border-radius: 50%;
+      z-index: 1;
+      transition: transform .35s ease, background .35s ease;
+    }
+    .frog-cheek.left  { left: 5px; }
+    .frog-cheek.right { right: 5px; }
+    /* Phồng má */
+    .frog.puffing .frog-cheek {
+      transform: scale(1.9);
+      background: rgba(255,70,95,.52);
+    }
+
+    /* Đường miệng */
+    .frog-mouth-shape {
+      position: absolute;
+      bottom: 10px; left: 50%;
+      transform: translateX(-50%);
+      width: 36px; height: 10px;
+      border-bottom: 3px solid #2e7d32;
+      border-radius: 0 0 50% 50%;
+    }
+
+    /* Điểm gốc lưỡi (ẩn, chỉ dùng để lấy toạ độ) */
+    #frogMouthOrigin {
+      position: absolute;
+      bottom: 14px; left: 50%;
+      transform: translateX(-50%);
+      width: 2px; height: 2px;
+      pointer-events: none;
+    }
+
+    /* Chân ếch */
+    .frog-leg {
+      position: absolute;
+      bottom: -2px;
+      width: 22px; height: 13px;
+      background: #4caf50;
+      border-radius: 50% 50% 40% 40%;
+      z-index: 0;
+    }
+    .frog-leg.left  { left: 2px;  transform: rotate(-14deg); }
+    .frog-leg.right { right: 2px; transform: rotate(14deg); }
+
+    /* Bong bóng thoại */
+    #frogSpeech {
+      display: none;
+      background: #fff;
+      border: 2.5px solid var(--pink);
+      border-radius: 14px;
+      padding: 8px 12px;
+      font-size: .8rem;
+      font-family: 'Be Vietnam Pro',sans-serif;
+      font-weight: 700;
+      color: var(--brown);
+      line-height: 1.45;
+      max-width: 158px;
+      position: relative;
+      animation: popIn .4s cubic-bezier(.34,1.56,.64,1);
+    }
+    /* Mũi tên nhọn chỉ xuống ếch */
+    #frogSpeech::after {
+      content:'';
+      position: absolute;
+      bottom: -11px; left: 22px;
+      border: 6px solid transparent;
+      border-top-color: var(--pink);
+    }
+    #frogSpeech::before {
+      content:'';
+      position: absolute;
+      bottom: -6px; left: 23px;
+      border: 5px solid transparent;
+      border-top-color: #fff;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       LƯỠI ẾCH  (position: fixed, ngoài #app)
+       ============================================================ */
+    #frogTongue {
+      position: fixed;
+      height: 8px;
+      border-radius: 4px 7px 7px 4px;
+      background: linear-gradient(to right, #e91e63, #f48fb1);
+      pointer-events: none;
+      display: none;
+      z-index: 198;
+      transform-origin: 0 50%;
+    }
+
+    /* ============================================================
+       HẠT TIM BAY (khi bấm "Có")
+       ============================================================ */
+    .heart-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 999;
+      transition: transform .85s ease-out, opacity .85s ease-out;
+      user-select: none;
+      line-height: 1;
+    }
+
+    /* ============================================================
+       MÀN 3: MANH MỐI
+       ============================================================ */
+    #screen-clues {
+      background: var(--cream);
+      justify-content: flex-start;
+      padding-top: 32px;
+    }
+    .section-heading {
+      font-family:'Caveat',cursive;
+      font-size:clamp(1.4rem,5.5vw,1.9rem);
+      text-align:center;line-height:1.3;margin-bottom:6px;
+    }
+    .section-desc {
+      font-size:.88rem;color:var(--brown-light);
+      text-align:center;margin-bottom:8px;
+    }
+    .progress-bar-wrap { width:100%;max-width:320px;margin-bottom:28px; }
+    .progress-label { font-size:.82rem;color:var(--brown-light);margin-bottom:6px;text-align:center; }
+    .progress-bar { height:6px;background:var(--pink-light);border-radius:99px;overflow:hidden; }
+    .progress-fill { height:100%;background:var(--pink);border-radius:99px;transition:width .4s ease;width:0%; }
+
+    .clues-grid {
+      display:flex;gap:16px;justify-content:center;
+      flex-wrap:wrap;width:100%;margin-bottom:32px;
+    }
+    .clue-item {
+      flex:0 0 auto;
+      width:clamp(90px,27vw,110px);
+      display:flex;flex-direction:column;align-items:center;gap:8px;
+      cursor:pointer;-webkit-tap-highlight-color:transparent;
+    }
+    .clue-icon-wrap {
+      width:100%;aspect-ratio:1;border-radius:18px;
+      background:var(--cream-dark);border:2.5px solid var(--pink-light);
+      display:flex;align-items:center;justify-content:center;
+      font-size:clamp(2rem,7vw,2.6rem);
+      transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+      box-shadow:0 3px 12px var(--shadow);position:relative;
+    }
+    .clue-item:active .clue-icon-wrap,
+    .clue-item:hover  .clue-icon-wrap {
+      transform:translateY(-4px) rotate(2deg);
+      box-shadow:0 8px 20px var(--shadow);
+    }
+    .clue-icon-wrap .check {
+      position:absolute;top:-8px;right:-8px;
+      width:22px;height:22px;border-radius:50%;
+      background:var(--pink);color:#fff;font-size:12px;
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 2px 6px rgba(0,0,0,.2);
+      animation:popIn .3s cubic-bezier(.34,1.56,.64,1) forwards;
+    }
+    .clue-item.opened .clue-icon-wrap { border-color:var(--pink);background:var(--pink-pale); }
+    .clue-name { font-size:.8rem;font-weight:600;text-align:center; }
+
+    /* ============================================================
+       MODAL THẺ KỶ NIỆM
+       ============================================================ */
+    .modal-overlay {
+      position:fixed;inset:0;
+      background:rgba(92,61,46,.45);
+      z-index:100;
+      display:flex;align-items:flex-end;justify-content:center;
+      animation:fadeIn .25s ease;touch-action:none;
+    }
+    .modal-overlay.closing { animation:fadeOut .25s ease forwards; }
+    .memory-card {
+      width:100%;max-width:480px;
+      background:var(--cream);border-radius:24px 24px 0 0;
+      padding:28px 24px 36px;
+      box-shadow:0 -8px 32px var(--shadow);
+      animation:sheetUp .35s cubic-bezier(.22,.61,.36,1) forwards;
+      position:relative;
+    }
+    .modal-drag-bar {
+      width:44px;height:4px;background:var(--pink-light);
+      border-radius:99px;margin:0 auto 20px;
+    }
+    .modal-close {
+      position:absolute;top:20px;right:20px;
+      width:36px;height:36px;border-radius:50%;border:none;
+      background:var(--cream-dark);color:var(--brown-light);
+      font-size:18px;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      touch-action:manipulation;
+    }
+    .polaroid {
+      background:#fff;padding:10px 10px 28px;
+      box-shadow:0 4px 18px var(--shadow);
+      margin:0 auto 20px;max-width:220px;
+      transform:rotate(-2deg);position:relative;
+    }
+    .polaroid.tilt-right { transform:rotate(2.5deg); }
+    .polaroid.tilt-none  { transform:rotate(0deg); }
+
+    .polaroid-img { width:100%;aspect-ratio:1;object-fit:cover;display:block; }
+    .polaroid-placeholder {
+      width:100%;aspect-ratio:1;
+      background:linear-gradient(135deg,#fde8ef,#f4e8d4 50%,#fde8ef);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+      font-size:2.4rem;
+    }
+    .polaroid-placeholder span {
+      font-family:'Caveat',cursive;font-size:.75rem;
+      color:var(--pink);text-align:center;padding:0 8px;
+    }
+    .polaroid-caption {
+      text-align:center;font-family:'Caveat',cursive;
+      font-size:.95rem;color:var(--brown-light);
+      margin-top:6px;padding-top:4px;
+    }
+    .memory-title {
+      font-family:'Caveat',cursive;font-size:1.5rem;
+      text-align:center;margin-bottom:12px;
+    }
+    .memory-text {
+      font-size:.95rem;line-height:1.75;
+      border-left:3px solid var(--pink-light);
+      padding-left:14px;margin-bottom:16px;
+    }
+
+    /* ============================================================
+       MÀN 4: ĐẾN LƯỢT EM
+       ============================================================ */
+    #screen-reply {
+      background:linear-gradient(160deg,var(--pink-pale) 0%,var(--cream) 60%);
+    }
+    .reply-emoji {
+      font-size:3.5rem;margin-bottom:16px;
+      animation:float 3s ease-in-out infinite;
+    }
+    @media (prefers-reduced-motion:reduce) { .reply-emoji{animation:none;} }
+    .reply-question {
+      font-family:'Caveat',cursive;
+      font-size:clamp(1.3rem,5vw,1.7rem);
+      text-align:center;line-height:1.4;
+      margin-bottom:28px;max-width:320px;
+    }
+    .reply-buttons { display:flex;flex-direction:column;gap:12px;width:100%;max-width:320px; }
+    .reply-input-wrap {
+      width:100%;max-width:360px;margin-top:20px;
+      animation:slideUp .4s ease forwards;
+    }
+    .reply-textarea {
+      width:100%;min-height:120px;padding:14px 16px;
+      border:2px solid var(--pink-light);border-radius:16px;
+      background:#fff;font-family:'Be Vietnam Pro',sans-serif;
+      font-size:.95rem;color:var(--brown);
+      resize:none;outline:none;line-height:1.6;
+      transition:border-color .2s;
+      box-shadow:0 2px 10px var(--shadow);
+    }
+    .reply-textarea:focus { border-color:var(--pink); }
+    .reply-textarea::placeholder { color:var(--brown-light);opacity:.6; }
+    .input-actions { display:flex;gap:10px;margin-top:10px;flex-wrap:wrap; }
+    .input-actions .btn {
+      flex:1;min-width:130px;font-size:.88rem;
+      padding:12px 16px;min-height:48px;
+    }
+    .copy-toast {
+      text-align:center;font-size:.82rem;color:var(--pink);
+      margin-top:6px;height:1.2em;transition:opacity .3s;
+    }
+
+    /* ============================================================
+       MÀN 5: LÁ THƯ CUỐI
+       ============================================================ */
+    #screen-letter {
+      background:linear-gradient(160deg,#fde8ef 0%,var(--cream) 50%,#fde8ef 100%);
+      justify-content:flex-start;padding-top:36px;
+    }
+    .hearts-container {
+      position:relative;width:100%;max-width:320px;
+      height:60px;margin-bottom:8px;
+      display:flex;align-items:center;justify-content:center;overflow:visible;
+    }
+    .heart-fly { position:absolute;font-size:1.5rem; }
+    .heart-fly.left   { left:10%;  animation:flyHeartLeft  1.4s cubic-bezier(.22,.61,.36,1) forwards; }
+    .heart-fly.right  { right:10%; animation:flyHeartRight 1.4s cubic-bezier(.22,.61,.36,1) forwards; }
+    .heart-fly.center {            animation:heartPulse    1.4s cubic-bezier(.22,.61,.36,1) forwards; }
+
+    .final-polaroid {
+      background:#fff;padding:12px 12px 36px;
+      box-shadow:0 6px 28px var(--shadow);
+      max-width:240px;transform:rotate(1deg);
+      margin-bottom:24px;position:relative;
+    }
+    .letter-paper {
+      background:#fff;border-radius:12px;padding:24px 22px;
+      max-width:360px;width:100%;
+      box-shadow:0 4px 20px var(--shadow);position:relative;
+      border:1.5px solid var(--pink-light);margin-bottom:24px;
+    }
+    .letter-paper::before {
+      content:'';position:absolute;inset:24px 22px;
+      background-image:repeating-linear-gradient(
+        to bottom,transparent,transparent 29px,
+        var(--pink-light) 29px,var(--pink-light) 30px
+      );
+      pointer-events:none;opacity:.5;
+    }
+    .letter-greeting { font-family:'Caveat',cursive;font-size:1.3rem;color:var(--pink);margin-bottom:12px; }
+    .letter-body { font-size:.97rem;line-height:1.85;position:relative; }
+    .letter-sign { font-family:'Caveat',cursive;font-size:1.2rem;margin-top:16px;text-align:right; }
+
+    @media (max-width:360px) {
+      .clues-grid { gap:10px; }
+      .clue-item  { width:clamp(80px,26vw,100px); }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ============================================================
+       MÀN 1: PHONG BÌ
+       ============================================================ -->
+  <section id="screen-envelope" class="screen">
+    <p class="case-title">Hồ sơ vụ án:<br>Ai làm Huy cười hoài?</p>
+    <p class="case-subtitle">🔍 ĐIỀU TRA NỘI BỘ&nbsp;•&nbsp;TỐI MẬT</p>
+
+    <div class="envelope-wrap" id="envelopeWrap" role="button" tabindex="0" aria-label="Phong bi thu">
+      <!-- Lop 1: Nen sau phong bi -->
+      <div class="env-back" aria-hidden="true"></div>
+
+      <!-- Lop 2: To thu (nam ben trong, bi mat truoc che) -->
+      <div class="paper-peek" id="paperPeek" aria-hidden="true">
+        <div class="paper-inner">
+          <div class="paper-top-mark">
+            <div class="ptm-line"></div>
+            <span class="ptm-heart">&#9825;</span>
+            <div class="ptm-line"></div>
+          </div>
+          <p class="paper-script">H&#7891; s&#417; v&#7909; &#225;n</p>
+          <div class="paper-rule"></div>
+          <div class="paper-rule pl-medium"></div>
+          <div class="paper-rule pl-short"></div>
+          <div class="paper-rule"></div>
+          <div class="paper-rule pl-medium"></div>
+          <div class="paper-rule pl-short"></div>
+          <p class="paper-script" style="margin-top:4px;">&#8212; T&#7889;i m&#7853;t &#8212;</p>
+        </div>
+      </div>
+
+      <!-- Lop 3: Mat truoc phong bi (SVG 3 tam giac trai/phai/day) -->
+      <!-- Luon o z:3, che phan duoi to thu -> trong nhu rut thu ra -->
+      <div class="env-front" aria-hidden="true">
+        <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gL" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#eda0b8"/>
+              <stop offset="100%" stop-color="#f4aec2"/>
+            </linearGradient>
+            <linearGradient id="gR" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#f4aec2"/>
+              <stop offset="100%" stop-color="#eda0b8"/>
+            </linearGradient>
+            <linearGradient id="gB" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f0a8bc"/>
+              <stop offset="100%" stop-color="#e898b0"/>
+            </linearGradient>
+            <linearGradient id="gTop" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f4b8cc"/>
+              <stop offset="100%" stop-color="#f0a8bc"/>
+            </linearGradient>
+          </defs>
+          <!-- Nen solid de che toan bo mat truoc phong bi -->
+          <rect x="0" y="0" width="280" height="200" fill="#f0a8bc"/>
+          <!-- Tam giac tren (giong flap nhung o mat truoc - lam nen cho flap) -->
+          <polygon points="0,0 280,0 140,83" fill="url(#gTop)"/>
+          <!-- Tam giac trai -->
+          <polygon points="0,0 0,200 140,83" fill="url(#gL)"/>
+          <!-- Tam giac phai -->
+          <polygon points="280,0 280,200 140,83" fill="url(#gR)"/>
+          <!-- Tam giac day -->
+          <polygon points="0,200 280,200 140,83" fill="url(#gB)"/>
+          <!-- Duong gap nhat -->
+          <line x1="0"   y1="0"   x2="140" y2="83" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+          <line x1="280" y1="0"   x2="140" y2="83" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+          <line x1="0"   y1="200" x2="140" y2="83" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+          <line x1="280" y1="200" x2="140" y2="83" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+        </svg>
+      </div>
+
+      <!-- Lop 4: Tem thu (tren mat truoc) -->
+      <div class="stamp" aria-hidden="true">&#128140;</div>
+
+      <!-- Lop 5: Nap tam giac tren (z:5 khi dong, z:1 sau khi lat) -->
+      <div class="envelope-flap" aria-hidden="true">
+        <svg viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <polygon points="0,0 280,0 140,80" fill="url(#flapGrad)" />
+          <defs>
+            <linearGradient id="flapGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f8b8cc"/>
+              <stop offset="100%" stop-color="#e88aaa"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+    <p class="envelope-label">Gửi người bị tình nghi làm Huy cười mỗi khi điện thoại sáng.</p>
+    <button class="btn btn-primary" id="btnOpen">Mở coi thử 💌</button>
+    <p class="small-note" style="margin-top:14px;">Bấm phong bì hoặc nút để mở</p>
+  </section>
+
+  <!-- ============================================================
+       MÀN 2 (MỚI): HỎI "EM CÓ YÊU ANH KHÔNG?"
+       ============================================================ -->
+  <section id="screen-question" class="screen hidden">
+    <p class="question-heading">Em có yêu anh không? 🌸</p>
+
+    <!-- Nút CÓ: đứng yên, bấm vào → hiện tim rồi chuyển màn -->
+    <button class="btn btn-primary" id="btnYes">Có 💗</button>
+
+    <!-- Vùng neo nút KHÔNG. Nút sẽ nhảy trong vùng này, không tràn ra ngoài -->
+    <div class="dodge-arena" id="dodgeArena" aria-hidden="true">
+      <button id="btnNo">Không</button>
+    </div>
+
+    <!-- Người dùng có thể bỏ qua bất cứ lúc nào -->
+    <button id="btnSkip">Cho em xem manh mối trước 🤭</button>
+  </section>
+
+  <!-- ============================================================
+       MÀN 3: TÌM MANH MỐI
+       ============================================================ -->
+  <section id="screen-clues" class="screen hidden">
+    <p class="section-heading">Vật chứng hiện trường 🕵️</p>
+    <p class="section-desc">Bấm vào từng vật để xem manh mối</p>
+
+    <div class="progress-bar-wrap">
+      <p class="progress-label" id="progressLabel">Đã tìm thấy 0/3 manh mối</p>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+
+    <div class="clues-grid">
+      <div class="clue-item" id="clue-0" role="button" tabindex="0" aria-label="Ly trà sữa">
+        <div class="clue-icon-wrap">🧋</div>
+        <span class="clue-name">Ly trà sữa</span>
+      </div>
+      <div class="clue-item" id="clue-1" role="button" tabindex="0" aria-label="Ảnh polaroid">
+        <div class="clue-icon-wrap">📷</div>
+        <span class="clue-name">Tấm polaroid</span>
+      </div>
+      <div class="clue-item" id="clue-2" role="button" tabindex="0" aria-label="Bong bóng chat">
+        <div class="clue-icon-wrap">💬</div>
+        <span class="clue-name">Tin nhắn đó</span>
+      </div>
+    </div>
+
+    <button class="btn btn-primary hidden" id="btnNextToReply">Tới lượt em kể ✨</button>
+    <p class="small-note">Bấm vào từng vật để xem thẻ kỷ niệm</p>
+  </section>
+
+  <!-- ============================================================
+       MÀN 4: ĐẾN LƯỢT EM
+       ============================================================ -->
+  <section id="screen-reply" class="screen hidden">
+    <div class="reply-emoji">🤍</div>
+    <p class="reply-question">Có khoảnh khắc nào với anh mà em vẫn nhớ hoài không?</p>
+
+    <div class="reply-buttons">
+      <button class="btn btn-primary"   id="btnYesTell">Có, để em kể 📝</button>
+      <button class="btn btn-secondary" id="btnMeetTell">Để gặp rồi kể 🤭</button>
+    </div>
+
+    <div class="reply-input-wrap hidden" id="replyInputWrap">
+      <textarea class="reply-textarea" id="replyTextarea"
+        placeholder="Em cứ viết thoải mái nha… ✍️" maxlength="500"></textarea>
+      <div class="input-actions">
+        <button class="btn btn-secondary" id="btnCopy">Sao chép 📋</button>
+        <button class="btn btn-primary"   id="btnReadLetterFromInput">Đọc thư của anh 💌</button>
+      </div>
+      <p class="copy-toast" id="copyToast"></p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MÀN 5: LÁ THƯ CUỐI
+       ============================================================ -->
+  <section id="screen-letter" class="screen hidden">
+    <div class="hearts-container" id="heartsContainer" aria-hidden="true">
+      <span class="heart-fly left">🩷</span>
+      <span class="heart-fly center" style="font-size:2rem;">💗</span>
+      <span class="heart-fly right">🩷</span>
+    </div>
+
+    <div class="final-polaroid">
+      <div id="finalImgWrap"></div>
+      <p class="polaroid-caption" id="finalCaption">— ảnh hai đứa mình —</p>
+    </div>
+
+    <div class="letter-paper">
+      <p class="letter-greeting" id="letterGreeting"></p>
+      <p class="letter-body"    id="letterBody"></p>
+      <p class="letter-sign"    id="letterSign"></p>
+    </div>
+
+    <button class="btn btn-secondary" id="btnRestart">Xem lại từ đầu 🔄</button>
+    <p class="small-note" style="margin-top:16px;">Made with ♡</p>
+  </section>
+
+</div><!-- /#app -->
+
+<!-- MODAL THẺ KỶ NIỆM -->
+<div class="modal-overlay hidden" id="memoryModal" role="dialog" aria-modal="true" aria-label="Thẻ kỷ niệm">
+  <div class="memory-card">
+    <div class="modal-drag-bar"></div>
+    <button class="modal-close" id="modalClose" aria-label="Đóng">✕</button>
+    <div class="polaroid" id="modalPolaroid">
+      <div id="modalImgWrap"></div>
+      <p class="polaroid-caption" id="modalPolaroidCaption"></p>
+    </div>
+    <p class="memory-title" id="modalTitle"></p>
+    <p class="memory-text"  id="modalText"></p>
+    <button class="btn btn-primary" style="width:100%;margin-top:4px;" id="modalDoneBtn">
+      Oke, hiểu rồi anh ơi 💛
+    </button>
+  </div>
+</div>
+
+<!-- ẾCH CSS – fixed, ngoài #app để không bị clipping -->
+<div id="frogContainer">
+  <div id="frogSpeech">Ộp. Bằng chứng biến mất rồi. 🐸</div>
+  <div class="frog" id="frogEl">
+    <div class="frog-eye left" ><div class="frog-pupil"></div></div>
+    <div class="frog-eye right"><div class="frog-pupil"></div></div>
+    <div class="frog-head">
+      <div class="frog-belly"></div>
+      <div class="frog-cheek left"></div>
+      <div class="frog-cheek right"></div>
+      <div class="frog-mouth-shape"></div>
+      <div id="frogMouthOrigin"></div>
+    </div>
+    <div class="frog-leg left"></div>
+    <div class="frog-leg right"></div>
+  </div>
+</div>
+
+<!-- LƯỠI ẾCH – fixed, z-index riêng -->
+<div id="frogTongue"></div>
+
+<script>
+/* ================================================================
+   ⬇⬇⬇  CONFIG – CHỖ BẠN SẼ CHỈNH  ⬇⬇⬇
+   ================================================================ */
+const CONFIG = {
+
+  /* ---- BIỆT DANH ------------------------------------------------ */
+  nameAnh: "Huy",        // ← tên / biệt danh của bạn
+  nameEm:  "em yêu",    // ← tên / biệt danh người nhận
+
+  /* ---- ẢNH -------------------------------------------------------
+     Đặt đường dẫn tương đối (cùng thư mục) hoặc URL đầy đủ.
+     Để "" → hiện placeholder 📸 đẹp, không có icon lỗi.
+  ---------------------------------------------------------------- */
+  finalPhoto: "images/anh-thich-nhat.jpg",        // ← ảnh hai đứa (ảnh cuối thư)
+
+  /* ---- BA KỶ NIỆM ---------------------------------------------- */
+  memories: [
+    {
+      icon: "🧋", title: "Chuyện ly trà sữa",
+      photo: "images/tra-sua.jpg",   photoCaption: "ly trà sữa hôm đó 🧋",
+      /* ↓ Đổi nội dung kỷ niệm 1 tại đây */
+      text: "Hôm đó là lần đầu tiên anh với em ra box , vui lắm luôn , yêu bé lắm luoongggg , nước cũng ngon nữa",
+    },
+    {
+      icon: "📷", title: "Tấm ảnh anh thích",
+      photo: "images/anh-thich-nhat.jpg",   photoCaption: "tấm anh thích nhất 📷",
+      /* ↓ Đổi nội dung kỷ niệm 2 tại đây */
+      text: "Tấm này anh thích lém :V nhìn lại là anh lại cười. Anh không chắc bé biết không, nhưng đây là bức anh thích nhất đó bé :V nhưng anh hông nói thôi , anh hay lựa mấy tấm dìm chọc bé thôi à.",
+    },
+    {
+      icon: "💬", title: "Tin nhắn đúng lúc",
+      photo: "images/tin-nhan.jpg",   photoCaption: "tin nhắn hôm đó 💬",
+      /* ↓ Đổi nội dung kỷ niệm 3 tại đây */
+      text: "Có những hôm anh đang mệt, thấy em nhắn một câu là tự nhiên vui lên. Anh muốn nghe bé động viên anh lắm :3",
+    },
+  ],
+
+  /* ---- LÁ THƯ --------------------------------------------------- */
+  letter: {
+    greeting: "bé yêu ơi,",   // ← lời chào đầu thư
+    /* ↓ Đổi nội dung lá thư ở đây. \n = xuống dòng */
+    body:
+      "Anh làm cái này để hỏi bé có thương anh không.\n\n" +
+      "Làm tới đây mới phát hiện anh có hơi nhiều chuyện muốn kể về việc anh thương bé.\n\n" +
+      "Cảm ơn bé vì những chuyện nhỏ xíu mà anh vẫn nhớ hoài. ♡",
+    sign: "— Ộp paaaaaaa 🩷",          // ← chữ ký
+    finalPolaroidCaption: "— ảnh hai đứa mình —",
+  },
+
+}; /* hết CONFIG */
+/* ================================================================
+   ⬆⬆⬆  HẾT CONFIG  ⬆⬆⬆
+   ================================================================ */
+
+
+(function () {
+  "use strict";
+
+  /* ---- Phát hiện thiết bị giảm chuyển động ---- */
+  const PRM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- Helpers async ---- */
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const tick = ()  => new Promise(r => requestAnimationFrame(r));
+
+  /* ---- DOM – Màn hình ---- */
+  const screens = {
+    envelope: document.getElementById("screen-envelope"),
+    question: document.getElementById("screen-question"),
+    clues:    document.getElementById("screen-clues"),
+    reply:    document.getElementById("screen-reply"),
+    letter:   document.getElementById("screen-letter"),
+  };
+
+  /* ---- DOM – Màn hỏi ---- */
+  const btnYes      = document.getElementById("btnYes");
+  const btnNo       = document.getElementById("btnNo");
+  const dodgeArena  = document.getElementById("dodgeArena");
+  const btnSkip     = document.getElementById("btnSkip");
+
+  /* ---- DOM – Ếch ---- */
+  const frogContainer   = document.getElementById("frogContainer");
+  const frogEl          = document.getElementById("frogEl");
+  const frogSpeech      = document.getElementById("frogSpeech");
+  const frogTongue      = document.getElementById("frogTongue");
+  const frogMouthOrigin = document.getElementById("frogMouthOrigin");
+
+  /* ---- DOM – Màn manh mối ---- */
+  const progressLabel  = document.getElementById("progressLabel");
+  const progressFill   = document.getElementById("progressFill");
+  const btnNextToReply = document.getElementById("btnNextToReply");
+  const modal          = document.getElementById("memoryModal");
+  const modalClose     = document.getElementById("modalClose");
+  const modalDoneBtn   = document.getElementById("modalDoneBtn");
+
+  /* ---- Trạng thái chung ---- */
+  const state = { opened: new Set(), total: CONFIG.memories.length };
+
+  /* ---- Trạng thái màn hỏi ---- */
+  let dodgeCount    = 0;   // số lần đã né
+  let noCooldown    = false;
+  let frogDone      = false;
+  let frogTimer     = null;
+  let questionAlive = false; // true khi đang ở màn hỏi
+
+  /* ================================================================
+     TIỆN ÍCH CHUNG
+     ================================================================ */
+  const show = el => el.classList.remove("hidden");
+  const hide = el => el.classList.add("hidden");
+
+  function switchScreen(from, to, anim = "fade-in") {
+    hide(from);
+    to.classList.remove("hidden");
+    to.classList.add(anim);
+    to.addEventListener("animationend", () => to.classList.remove(anim), { once: true });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function buildPolaroidContent(photo, label) {
+    if (photo) {
+      const img = document.createElement("img");
+      img.src = photo; img.alt = label || ""; img.className = "polaroid-img";
+      img.onerror = () => img.replaceWith(makePlaceholder(label));
+      return img;
+    }
+    return makePlaceholder(label);
+  }
+  function makePlaceholder(label) {
+    const d = document.createElement("div");
+    d.className = "polaroid-placeholder";
+    d.innerHTML = `<span>📸</span><span>${label || "ảnh kỷ niệm"}</span>`;
+    return d;
+  }
+
+  /* ================================================================
+     MÀN 1: PHONG BÌ
+     ================================================================ */
+  const envelopeWrap = document.getElementById("envelopeWrap");
+  const btnOpen      = document.getElementById("btnOpen");
+
+  function openEnvelope() {
+    if (envelopeWrap.classList.contains("open")) return;
+    envelopeWrap.classList.add("open");   // Buoc 1: lat nap (0-580ms)
+    btnOpen.disabled = true;
+
+    // Buoc 2: khi nap gan xong (350ms), dua nap ra sau to thu
+    setTimeout(() => {
+      envelopeWrap.classList.add("flap-behind");
+    }, 350);
+
+    // Buoc 3: to thu bat dau truot len (500ms)
+    setTimeout(() => {
+      envelopeWrap.classList.add("letter-out");
+    }, 500);
+
+    // Buoc 4: chuyen man hinh (1500ms)
+    setTimeout(() => {
+      switchScreen(screens.envelope, screens.question, "slide-up");
+      requestAnimationFrame(() => requestAnimationFrame(initQuestionScreen));
+    }, 1500);
+  }
+
+  envelopeWrap.addEventListener("click", openEnvelope);
+  envelopeWrap.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") openEnvelope();
+  });
+  btnOpen.addEventListener("click", openEnvelope);
+
+  /* ================================================================
+     MÀN 2: HỎI "EM CÓ YÊU ANH KHÔNG?"
+     ================================================================ */
+
+  /* --- Reset toàn bộ màn hỏi (gọi khi khởi động lại) --- */
+  function resetQuestionScreen() {
+    dodgeCount    = 0;
+    noCooldown    = false;
+    frogDone      = false;
+    questionAlive = false;
+    if (frogTimer) { clearTimeout(frogTimer); frogTimer = null; }
+
+    /* Reset ếch */
+    frogContainer.classList.remove("visible");
+    frogSpeech.style.display = "none";
+    frogTongue.style.display = "none";
+    frogEl.classList.remove("puffing");
+
+    /* Reset nút KHÔNG về giữa arena */
+    btnNo.style.cssText = ""; // xoá tất cả inline style
+  }
+
+  /* --- Khởi động màn hỏi (gọi SAU khi screen đã visible) --- */
+  function initQuestionScreen() {
+    resetQuestionScreen();
+    questionAlive = true;
+
+    /* Đặt vị trí nút KHÔNG ngay giữa arena */
+    const ar = dodgeArena.getBoundingClientRect();
+    btnNo.style.transition = "none";
+    btnNo.style.left = (ar.width  / 2) + "px";
+    btnNo.style.top  = (ar.height / 2) + "px";
+
+    /* Hẹn giờ 8 giây → ếch tự xuất hiện */
+    frogTimer = setTimeout(() => {
+      if (questionAlive && !frogDone) runFrogSequence();
+    }, 8000);
+  }
+
+  /* --- Rời màn hỏi, sang màn manh mối --- */
+  function leaveQuestion() {
+    questionAlive = false;
+    if (frogTimer) { clearTimeout(frogTimer); frogTimer = null; }
+    frogContainer.classList.remove("visible");
+    frogTongue.style.display = "none";
+    switchScreen(screens.question, screens.clues, "slide-up");
+  }
+
+  /* Nút CÓ → hiện tim rồi chuyển màn */
+  btnYes.addEventListener("click", e => {
+    spawnHearts(e.clientX, e.clientY);
+    setTimeout(leaveQuestion, 650);
+  });
+
+  /* Nút bỏ qua */
+  btnSkip.addEventListener("click", leaveQuestion);
+
+  /* --- Tính vị trí ngẫu nhiên mới cho nút KHÔNG trong arena --- */
+  function getNewNoPos() {
+    const ar  = dodgeArena.getBoundingClientRect();
+    const bn  = btnNo.getBoundingClientRect();
+    const pad = 12;
+
+    /* Khoảng giới hạn cho TÂM của nút để không tràn ra ngoài (do có transform: translate(-50%,-50%)) */
+    const minX = pad + bn.width / 2;
+    const maxX = Math.max(minX, ar.width - pad - bn.width / 2);
+    const minY = pad + bn.height / 2;
+    const maxY = Math.max(minY, ar.height - pad - bn.height / 2);
+
+    /* Vị trí tâm hiện tại (px) */
+    const curX = parseFloat(btnNo.style.left) || (ar.width  / 2);
+    const curY = parseFloat(btnNo.style.top)  || (ar.height / 2);
+
+    /* Khoảng cách nhảy tối thiểu (nhảy thật xa trên 150px) */
+    const arenaSpan = Math.hypot(maxX - minX, maxY - minY);
+    const minDistance = Math.min(190, Math.max(140, arenaSpan * 0.55));
+
+    let nx, ny, tries = 0;
+    do {
+      // Ưu tiên nhảy sang nửa đối diện (trái <-> phải, trên <-> dưới)
+      const targetSideX = curX > ar.width / 2 ? 0 : 1;
+      const targetSideY = curY > ar.height / 2 ? 0 : 1;
+
+      if (tries < 20) {
+        nx = targetSideX ? (minX + (maxX - minX) * (0.45 + Math.random() * 0.55))
+                         : (minX + (maxX - minX) * (Math.random() * 0.55));
+        ny = targetSideY ? (minY + (maxY - minY) * (0.45 + Math.random() * 0.55))
+                         : (minY + (maxY - minY) * (Math.random() * 0.55));
+      } else {
+        nx = minX + Math.random() * (maxX - minX);
+        ny = minY + Math.random() * (maxY - minY);
+      }
+      tries++;
+    } while (tries < 40 && Math.hypot(nx - curX, ny - curY) < minDistance);
+
+    return { x: Math.round(nx), y: Math.round(ny) };
+  }
+
+  /* --- Di chuyển nút KHÔNG --- */
+  function moveBtnNo() {
+    const { x, y } = getNewNoPos();
+    btnNo.style.transition = "left .34s cubic-bezier(.34,1.56,.64,1), top .34s cubic-bezier(.34,1.56,.64,1)";
+    btnNo.style.left = x + "px";
+    btnNo.style.top  = y + "px";
+  }
+
+  /* --- Xử lý né (cả desktop hover và mobile touch) --- */
+  function handleDodge() {
+    if (noCooldown || frogDone || !questionAlive) return;
+    if (dodgeCount >= 3) return; // đã khoá
+
+    noCooldown = true;
+    dodgeCount++;
+
+    if (dodgeCount >= 3) {
+      /* Lần né thứ 3: di chuyển → khoá → bắt đầu trình ếch */
+      moveBtnNo();
+      btnNo.classList.add("shaking");
+      setTimeout(() => btnNo.classList.remove("shaking"), 450);
+      setTimeout(() => { if (questionAlive) runFrogSequence(); }, 700);
+    } else {
+      moveBtnNo();
+      /* Cooldown ngắn để tránh né liên tục */
+      setTimeout(() => { noCooldown = false; }, 420);
+    }
+  }
+
+  /* Desktop: chuột tiến sát trong bán kính 60px → né ngay trước khi kịp chạm */
+  dodgeArena.addEventListener("mousemove", e => {
+    if (noCooldown || frogDone || !questionAlive || dodgeCount >= 3) return;
+    const bRect = btnNo.getBoundingClientRect();
+    const btnCX = bRect.left + bRect.width  / 2;
+    const btnCY = bRect.top  + bRect.height / 2;
+    if (Math.hypot(e.clientX - btnCX, e.clientY - btnCY) < 60) {
+      handleDodge();
+    }
+  });
+
+  /* Desktop: hover trực tiếp vào nút → né */
+  btnNo.addEventListener("mouseenter", handleDodge);
+
+  /* Mobile: chạm vào nút → né (preventDefault ngăn click thật) */
+  btnNo.addEventListener("touchstart", e => {
+    e.preventDefault();
+    handleDodge();
+  }, { passive: false });
+
+  /* ================================================================
+     TRÌNH ẾCH
+     ================================================================ */
+  async function runFrogSequence() {
+    if (frogDone || !questionAlive) return;
+    frogDone = true;
+    if (frogTimer) { clearTimeout(frogTimer); frogTimer = null; }
+
+    /* 1. Hiện ếch trượt lên từ dưới */
+    frogContainer.classList.add("visible");
+    await wait(700);
+    if (!questionAlive) { frogContainer.classList.remove("visible"); return; }
+
+    /* ---- Chế độ giảm chuyển động: bỏ qua lưỡi, ẩn nút ngay ---- */
+    if (PRM) {
+      btnNo.style.display = "none";
+      frogSpeech.style.display = "block";
+      return;
+    }
+
+    /* 2. Tính toán vị trí miệng và nút trong viewport */
+    const oRect  = frogMouthOrigin.getBoundingClientRect();
+    const mouthX = oRect.left + oRect.width  / 2;
+    const mouthY = oRect.top  + oRect.height / 2;
+
+    const bRect = btnNo.getBoundingClientRect();
+    const btnCX = bRect.left + bRect.width  / 2;
+    const btnCY = bRect.top  + bRect.height / 2;
+
+    const angle = Math.atan2(btnCY - mouthY, btnCX - mouthX);
+    const dist  = Math.hypot(btnCX - mouthX, btnCY - mouthY);
+
+    /* 3. Đặt lưỡi (scaleX = 0, chưa thấy) */
+    frogTongue.style.display        = "block";
+    frogTongue.style.left           = mouthX + "px";
+    frogTongue.style.top            = (mouthY - 4) + "px";
+    frogTongue.style.width          = dist + "px";
+    frogTongue.style.transformOrigin = "0 50%";
+    frogTongue.style.transform       = `rotate(${angle}rad) scaleX(0)`;
+    frogTongue.style.transition      = "none";
+
+    await tick();
+    if (!questionAlive) { frogTongue.style.display = "none"; return; }
+
+    /* 4. Thè lưỡi ra → scaleX 0→1 */
+    frogTongue.style.transition = "transform .44s ease-out";
+    frogTongue.style.transform  = `rotate(${angle}rad) scaleX(1)`;
+    await wait(480);
+    if (!questionAlive) { frogTongue.style.display = "none"; return; }
+
+    /* 5. Chuyển nút về position:fixed (giữ nguyên vị trí trên màn) rồi kéo về miệng */
+    const curRect = btnNo.getBoundingClientRect();
+    btnNo.style.position  = "fixed";
+    btnNo.style.left      = curRect.left + "px";
+    btnNo.style.top       = curRect.top  + "px";
+    btnNo.style.width     = curRect.width  + "px";
+    btnNo.style.margin    = "0";
+    btnNo.style.transform = "none";
+    btnNo.style.zIndex    = "195";
+
+    await tick();
+
+    const dxBtn = mouthX - (curRect.left + curRect.width  / 2);
+    const dyBtn = mouthY - (curRect.top  + curRect.height / 2);
+
+    btnNo.style.transition = "transform .44s ease-in, opacity .38s ease-in";
+    btnNo.style.transform  = `translate(${dxBtn}px, ${dyBtn}px) scale(0.05)`;
+    btnNo.style.opacity    = "0";
+
+    /* Thu lưỡi lại cùng lúc nút di chuyển */
+    frogTongue.style.transition = "transform .4s ease-in";
+    frogTongue.style.transform  = `rotate(${angle}rad) scaleX(0)`;
+
+    await wait(500);
+    frogTongue.style.display = "none";
+    btnNo.style.display      = "none";
+    if (!questionAlive) return;
+
+    /* 6. Ếch phồng má một nhịp */
+    frogEl.classList.add("puffing");
+    await wait(520);
+    frogEl.classList.remove("puffing");
+
+    /* 7. Hiện bong bóng thoại */
+    if (!questionAlive) return;
+    frogSpeech.style.display = "block";
+  }
+
+  /* ================================================================
+     HẠT TIM KHI BẤM "CÓ"
+     ================================================================ */
+  function spawnHearts(cx, cy) {
+    const pool  = ["💗","💕","🩷","❤️","💖","✨","🌸"];
+    const count = 10;
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement("span");
+      el.className   = "heart-particle";
+      el.textContent = pool[i % pool.length];
+      el.style.left     = cx + "px";
+      el.style.top      = cy + "px";
+      el.style.fontSize = (14 + Math.random() * 14) + "px";
+      el.style.opacity  = "1";
+      document.body.appendChild(el);
+
+      const ang  = (i / count) * Math.PI * 2;
+      const dist = 50 + Math.random() * 65;
+      const dx   = Math.cos(ang) * dist;
+      const dy   = Math.sin(ang) * dist - 25;
+
+      /* Hai rAF để transition bắt đầu chắc chắn */
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        el.style.transform = `translate(${dx}px, ${dy}px)`;
+        el.style.opacity   = "0";
+      }));
+      setTimeout(() => el.remove(), 950);
+    }
+  }
+
+  /* ================================================================
+     MÀN 3: MANH MỐI
+     ================================================================ */
+  function updateProgress() {
+    const n = state.opened.size;
+    progressLabel.textContent = `Đã tìm thấy ${n}/${state.total} manh mối`;
+    progressFill.style.width  = `${(n / state.total) * 100}%`;
+    if (n >= state.total) {
+      show(btnNextToReply);
+      btnNextToReply.classList.add("slide-up");
+    }
+  }
+
+  function markClueOpened(idx) {
+    if (state.opened.has(idx)) return;
+    state.opened.add(idx);
+    const item = document.getElementById(`clue-${idx}`);
+    item.classList.add("opened");
+    const wrap = item.querySelector(".clue-icon-wrap");
+    if (!wrap.querySelector(".check")) {
+      const chk = document.createElement("span");
+      chk.className = "check"; chk.textContent = "✓";
+      wrap.appendChild(chk);
+    }
+    updateProgress();
+  }
+
+  const tiltClasses = ["", "tilt-right", "tilt-none"];
+
+  function openMemoryModal(idx) {
+    const mem = CONFIG.memories[idx];
+    const polaroidEl = document.getElementById("modalPolaroid");
+    const imgWrap    = document.getElementById("modalImgWrap");
+
+    polaroidEl.className = `polaroid ${tiltClasses[idx % tiltClasses.length]}`;
+    imgWrap.innerHTML = "";
+    imgWrap.appendChild(buildPolaroidContent(mem.photo, mem.photoCaption));
+    document.getElementById("modalPolaroidCaption").textContent = mem.photoCaption;
+    document.getElementById("modalTitle").textContent = mem.title;
+    document.getElementById("modalText").textContent  = mem.text;
+
+    modal.classList.remove("hidden", "closing");
+    document.body.style.overflow = "hidden";
+    modal.focus();
+  }
+
+  function closeModal() {
+    modal.classList.add("closing");
+    modal.addEventListener("animationend", () => {
+      modal.classList.add("hidden");
+      modal.classList.remove("closing");
+      document.body.style.overflow = "";
+    }, { once: true });
+  }
+
+  CONFIG.memories.forEach((_, idx) => {
+    const el = document.getElementById(`clue-${idx}`);
+    const handler = () => { markClueOpened(idx); openMemoryModal(idx); };
+    el.addEventListener("click", handler);
+    el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") handler(); });
+  });
+
+  modalClose.addEventListener("click", closeModal);
+  modalDoneBtn.addEventListener("click", closeModal);
+  modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+
+  btnNextToReply.addEventListener("click", () => {
+    closeModal();
+    setTimeout(() => switchScreen(screens.clues, screens.reply, "slide-up"), 100);
+  });
+
+  /* ================================================================
+     MÀN 4: ĐẾN LƯỢT EM
+     ================================================================ */
+  const btnYesTell         = document.getElementById("btnYesTell");
+  const btnMeetTell        = document.getElementById("btnMeetTell");
+  const replyInputWrap     = document.getElementById("replyInputWrap");
+  const btnCopy            = document.getElementById("btnCopy");
+  const btnReadLetterInput = document.getElementById("btnReadLetterFromInput");
+  const copyToast          = document.getElementById("copyToast");
+
+  btnYesTell.addEventListener("click", () => {
+    show(replyInputWrap);
+    document.getElementById("replyTextarea").focus();
+    hide(btnYesTell);
+  });
+  btnMeetTell.addEventListener("click", goToLetter);
+
+  btnCopy.addEventListener("click", () => {
+    const text = document.getElementById("replyTextarea").value.trim();
+    if (!text) {
+      copyToast.textContent = "Hãy viết gì đó trước nha 😊";
+      setTimeout(() => { copyToast.textContent = ""; }, 2000);
+      return;
+    }
+    const done = msg => {
+      copyToast.textContent = msg;
+      setTimeout(() => { copyToast.textContent = ""; }, 3000);
+    };
+    navigator.clipboard.writeText(text)
+      .then(() => done("✓ Đã sao chép! Gửi cho anh nha 💛"))
+      .catch(() => {
+        const ta = document.createElement("textarea");
+        ta.value = text; ta.style.cssText = "position:fixed;opacity:0;";
+        document.body.appendChild(ta); ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        done("✓ Đã sao chép! Gửi cho anh nha 💛");
+      });
+  });
+
+  btnReadLetterInput.addEventListener("click", goToLetter);
+
+  /* ================================================================
+     MÀN 5: LÁ THƯ
+     ================================================================ */
+  function goToLetter() {
+    document.getElementById("letterGreeting").textContent = CONFIG.letter.greeting;
+
+    const bodyEl = document.getElementById("letterBody");
+    bodyEl.innerHTML = "";
+    CONFIG.letter.body.split("\n").forEach((line, i, arr) => {
+      bodyEl.appendChild(document.createTextNode(line));
+      if (i < arr.length - 1) bodyEl.appendChild(document.createElement("br"));
+    });
+
+    document.getElementById("letterSign").textContent   = CONFIG.letter.sign;
+    document.getElementById("finalCaption").textContent = CONFIG.letter.finalPolaroidCaption;
+
+    const fw = document.getElementById("finalImgWrap");
+    fw.innerHTML = "";
+    fw.appendChild(buildPolaroidContent(CONFIG.finalPhoto, CONFIG.letter.finalPolaroidCaption));
+
+    switchScreen(screens.reply, screens.letter, "fade-in");
+
+    const hc = document.getElementById("heartsContainer");
+    hc.innerHTML = "";
+    setTimeout(() => {
+      hc.innerHTML =
+        '<span class="heart-fly left" aria-hidden="true">🩷</span>' +
+        '<span class="heart-fly center" style="font-size:2rem;" aria-hidden="true">💗</span>' +
+        '<span class="heart-fly right" aria-hidden="true">🩷</span>';
+    }, 300);
+  }
+
+  /* ================================================================
+     NÚT "XEM LẠI TỪ ĐẦU" – đặt lại toàn bộ
+     ================================================================ */
+  document.getElementById("btnRestart").addEventListener("click", () => {
+    /* Manh mối */
+    state.opened.clear();
+    updateProgress();
+    CONFIG.memories.forEach((_, idx) => {
+      const item = document.getElementById(`clue-${idx}`);
+      item.classList.remove("opened");
+      const chk = item.querySelector(".check");
+      if (chk) chk.remove();
+    });
+
+    /* Màn reply */
+    hide(replyInputWrap);
+    show(btnYesTell);
+    document.getElementById("replyTextarea").value = "";
+    copyToast.textContent = "";
+    hide(btnNextToReply);
+
+    /* Phong bì */
+    envelopeWrap.classList.remove("open", "flap-behind", "letter-out");
+    btnOpen.disabled = false;
+
+    /* Màn hỏi + ếch */
+    resetQuestionScreen();
+
+    switchScreen(screens.letter, screens.envelope, "fade-in");
+  });
+
+  /* ================================================================
+     KHỞI TẠO: ẩn tất cả, chỉ hiện phong bì
+     ================================================================ */
+  updateProgress();
+  Object.values(screens).forEach(s => s.classList.add("hidden"));
+  screens.envelope.classList.remove("hidden");
+
+})();
+</script>
+</body>
+</html>
